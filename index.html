@@ -11,6 +11,9 @@
     <!--顶部导航栏-->
     <header></header>
     <main>
+        <style>
+            
+        </style>
         <div class="wrapper" id="mBody"></div>
     </main>
     <!--尾部信息栏-->
@@ -27,13 +30,13 @@
             'w':'weibo.com',
             'e':'ele.me',
             'r':'renren.com',
-            't':'tianya.com',
+            't':'tianmao.com',
             'y':'youtube.com',
-            'u':'uc.com',
+            'u':'uu.com',
             'i':'iqiyi.com',
             'o':'oppo.com',
             'p':undefined,
-            'a':'afun.com'
+            'a':'acfun.com'
         }
         var hashInLocalStorage = JSON.parse(localStorage.getItem('save') || 'null')//null这注意
         if(hashInLocalStorage){
@@ -44,24 +47,50 @@
         while(index1 < key['length']){
             /*创建一个div标签*/
             div1 = document.createElement('div')
+            div1.className = 'row'
             mBody.appendChild(div1)
             row = key[index1] //第一个数组 第二个数组 第三个数组
             index2 = 0
             while(index2 < row.length){
                 keyb = document.createElement('kbd')
-                keyb.textContent = row[index2] //这句不能乱放
+                keyb.className = 'key'
+                //这句不能乱放keyb.textContent = row[index2]
+                span = document.createElement('span')
+                span.textContent = row[index2]
+                span.className = 'text'
+                keyb.appendChild(span)
                 eButton = document.createElement('button')
                 eButton.textContent = '编辑'
                 eButton.id = row[index2]
+                img = document.createElement('img')
+                if(hash[row[index2]]){
+                    img.src = 'http://'+hash[row[index2]]+'/favicon.ico'
+                }else{
+                    img.src = 'https://i.loli.net/2019/07/22/5d353dc4078a132201.png'
+                }
+                img.onerror = function(er){
+                    console.log(er)
+                    er.target.src = 'https://i.loli.net/2019/07/22/5d353dc4078a132201.png'
+                }
+                
                 eButton.onclick = function(click){
                     console.log(click.target)
-                    hKey = click['target']['id']
+                    cButton = click['target']
+                    hKey = cButton['id']
+                    //previousSibling获取的是上一个兄弟节点
+                    img2 = cButton.nextSibling
                     wirte = prompt('请输入一个网址')
                     hash[hKey] = wirte
                     //每次hash改变，就保存一次
+                    img2.src = 'http://'+wirte+'/favicon.ico'
+                    img2.onerror = function(er){
+                    console.log(er)
+                    er.target.src = 'https://i.loli.net/2019/07/22/5d353dc4078a132201.png'
+                }
                     localStorage.setItem('save',JSON.stringify(hash))
                 }
                 keyb.appendChild(eButton)
+                keyb.appendChild(img)
                 div1.appendChild(keyb)
                 index2 = index2 + 1
             }
