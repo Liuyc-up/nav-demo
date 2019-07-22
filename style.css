@@ -4,7 +4,7 @@
 }
 a{text-decoration: none}
 kbd{
-    border: 1px solid goldenrod;
+    /*border: 1px solid goldenrod;*/
     width: 4em;
     height: 4em;
     display: inline-block;
